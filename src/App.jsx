@@ -502,7 +502,7 @@ var flkty = new Flickity( '.main-gallery', {
 </div>
 
 
-<Flickity options={{freeScroll: true, wrapAround: true, autoPlay: true, pauseAutoPlayOnHover: true, contain: true, pageDots: false}}>
+<Flickity options={{freeScroll: true, wrapAround: true, autoPlay: true, pauseAutoPlayOnHover: true, contain: true, pageDots: false, initialIndex: 1}}>
 <div className="carousel-cell">
   <a className="gmn" href="https://goodmorningnews.club" target="_blank" rel="noreferrer">
     <div>
