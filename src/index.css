@@ -53,7 +53,7 @@ padding: 10px;
 .blockNumber {
   position: fixed;
   left: 0px;
-  top: 75px;
+  top: 60px;
   margin: 0;
   padding: 0;
   font-size: 1em;
@@ -61,16 +61,16 @@ padding: 10px;
 
 .gasPrice {
   position: fixed;
-  left: 0px;
-  top: 135px;
+  left: 160px;
+  top: 60px;
   margin: 0;
   padding: 0;
 }
 
 .ethPrice {
   position: fixed;
-  left: 0px;
-  top: 195px;
+  left: 320px;
+  top: 60px;
   margin: 0;
   padding: 0;
 }
@@ -150,15 +150,19 @@ padding: 10px;
 }
 
 .projects {
-  background: #BB00FF;
-  background: linear-gradient(to right, #BB00FF 0%, #0017B0 100%);
+  background: #CB8FFF;
+  background: linear-gradient(to right, #CB8FFF 0%, #00CCFF 53%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  
-  
-  
-width: 33%;
-margin: auto;
+  font-size: 1.5em;
+  font-family: monospace;
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  border-bottom: 1px solid #fff;
 }
 
 #myUL {
@@ -216,6 +220,11 @@ margin: auto;
   width: 100%; /* full width */
   height: 300px; /* height of carousel */
   margin-right: 10px;
+  background-color: rgba(0,0,0,0.3);
+  width: 33%;
+  border: 1px solid #fff;
+  border-radius: 16px;
+  margin: 24px;
 }
 
 

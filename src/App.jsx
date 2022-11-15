@@ -315,50 +315,62 @@ function App(props) {
   };
 
   async function blockNumber() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const getNumber = await provider.getBlockNumber();
-    const parse = JSON.stringify(getNumber);
-    if (parse !== 0) {
-     setBlock(parse) 
-   } else {
-     setBlock("waiting.....")
-   }
-    console.log(getNumber)
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const getNumber = await provider.getBlockNumber();
+      const parse = JSON.stringify(getNumber);
+      if (parse !== 0) {
+       setBlock(parse) 
+     } else {
+       setBlock("waiting.....")
+     }
+      console.log(getNumber)
+    } catch {
+      console.log("error")
+    }
  }
 
  async function getGas() {
-  const provider = new ethers.providers.Web3Provider(window.ethereum)
-  const gasPrice = await provider.getGasPrice()
-  const parsedGas = ethers.utils.formatUnits(gasPrice, "gwei")
-  const dec = parseFloat(parsedGas).toFixed(0);
-  if (dec !== 0) {
-      setGas(dec) 
-    } else {
-      setGas("waiting.....")
-    }
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const gasPrice = await provider.getGasPrice()
+    const parsedGas = ethers.utils.formatUnits(gasPrice, "gwei")
+    const dec = parseFloat(parsedGas).toFixed(0);
+    if (dec !== 0) {
+        setGas(dec) 
+      } else {
+        setGas("waiting.....")
+      }
+  } catch {
+    console.log("error")
   }
+}
 
 async function getPrice() {
-  const { ChainId, Fetcher, WETH, Route, Trade, TokenAmount, TradeType } = require ('@uniswap/sdk');
-  const provider = new ethers.providers.Web3Provider(window.ethereum)
-  const chainId = ChainId.MAINNET;
-  const tokenAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
-  const dai = await Fetcher.fetchTokenData(chainId, tokenAddress, provider);
-	const weth = WETH[chainId];
-	const pair = await Fetcher.fetchPairData(dai, weth, provider);
-	const route = new Route([pair], weth);
-	const trade = new Trade(route, new TokenAmount(weth, '100000000000000000'), TradeType.EXACT_INPUT);
-	console.log("Mid Price WETH --> DAI:", route.midPrice.toSignificant(6));
-	console.log("Mid Price DAI --> WETH:", route.midPrice.invert().toSignificant(6));
-	console.log("-".repeat(45));
-	console.log("Execution Price WETH --> DAI:", trade.executionPrice.toSignificant(6));
-	console.log("Mid Price after trade WETH --> DAI:", trade.nextMidPrice.toSignificant(6));
-  const ethPrice = trade.executionPrice.toSignificant(6);
-    if (ethPrice !== 0) {
-      setPrice(ethPrice) 
-    } else {
-      setPrice("waiting.....")
-    }
+  try {
+    const { ChainId, Fetcher, WETH, Route, Trade, TokenAmount, TradeType } = require ('@uniswap/sdk');
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const chainId = ChainId.MAINNET;
+    const tokenAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
+    const dai = await Fetcher.fetchTokenData(chainId, tokenAddress, provider);
+    const weth = WETH[chainId];
+    const pair = await Fetcher.fetchPairData(dai, weth, provider);
+    const route = new Route([pair], weth);
+    const trade = new Trade(route, new TokenAmount(weth, '100000000000000000'), TradeType.EXACT_INPUT);
+    console.log("Mid Price WETH --> DAI:", route.midPrice.toSignificant(6));
+    console.log("Mid Price DAI --> WETH:", route.midPrice.invert().toSignificant(6));
+    console.log("-".repeat(45));
+    console.log("Execution Price WETH --> DAI:", trade.executionPrice.toSignificant(6));
+    console.log("Mid Price after trade WETH --> DAI:", trade.nextMidPrice.toSignificant(6));
+    const ethPrice = trade.executionPrice.toSignificant(6);
+      if (ethPrice !== 0) {
+        setPrice(ethPrice) 
+      } else {
+        setPrice("waiting.....")
+      }
+  } catch {
+    console.log("error")
+  }
 }
 
 var flkty = new Flickity( '.main-gallery', {
@@ -477,11 +489,11 @@ var flkty = new Flickity( '.main-gallery', {
 
 <div style={{position: "fixed", top: "90px", right: "10px"}}>
 {close ?(
-  <Button onClick={getWallet} style={{border: "1px solid rgba(255, 255, 255, 0.51)", borderRadius: "7px", marginBottom: "10px", backgroundColor: "rgba(0,0,0,0.5", color: "#fff"}}>
+  <Button style={{color:"#000"}} onClick={getWallet}>
     <TextDecrypt text={"Create Wallet"} ></TextDecrypt>
   </Button>
 ):(
-<Button style={{border: "1px solid rgba(255, 255, 255, 0.51)", borderRadius: "7px", marginBottom: "10px", backgroundColor: "rgba(0,0,0,0.5", color: "#fff"}} onClick={() => {navigator.clipboard.writeText(key).then(alert("copied private key")).then(changeButton())}}>
+<Button style={{color:"#000"}} onClick={() => {navigator.clipboard.writeText(key).then(alert("copied private key")).then(changeButton())}}>
   <TextDecrypt text={"Get Keys"} ></TextDecrypt>
 </Button>
 )}
@@ -489,15 +501,12 @@ var flkty = new Flickity( '.main-gallery', {
 </div>
 </div>
 
-<div>
+
 <Flickity options={{freeScroll: true, wrapAround: true, autoPlay: true, pauseAutoPlayOnHover: true, contain: true, pageDots: false}}>
 <div className="carousel-cell">
   <a className="gmn" href="https://goodmorningnews.club" target="_blank" rel="noreferrer">
-    <div style={{
-      fontSize: "2em",
-      borderBottom: "1px solid #fff"
-    }}>
-    <h4 className="projects">Good Morning News</h4>
+    <div>
+    <p className="projects">Good Morning News</p>
     </div>
       <div style={{width: "200px", height: "200px", margin: "auto", paddingTop: "10px"}}>
         <img src={gmnLogo} alt="gmn"></img>
@@ -506,11 +515,8 @@ var flkty = new Flickity( '.main-gallery', {
 </div>
 <div className="carousel-cell">
   <a className="bp" href="banklesspublishing.xyz" target="_blank" rel="noreferrer">
-    <div style={{
-      fontSize: "2em",
-      borderBottom: "1px solid #fff"
-    }}>
-    <h4 className="projects" >Bankless Publishing</h4>
+    <div>
+    <p className="projects" >Bankless Publishing</p>
     </div>
     <div style={{width: "200px", height: "200px", margin: "auto", paddingTop: "10px"}}>
       <img src={bpLogo} alt="gmn"></img>
@@ -519,11 +525,8 @@ var flkty = new Flickity( '.main-gallery', {
 </div>
 <div className="carousel-cell">
   <a className="newsies" href="https://spookynewsies.xyz" target="_blank" rel="noreferrer">
-    <div style={{
-      fontSize: "2em",
-      borderBottom: "1px solid #fff"
-    }}>
-    <h4 className="projects">Newsies</h4>
+    <div>
+    <p className="projects">Newsies</p>
     </div>
     <div style={{width: "200px", height: "200px", margin: "auto", paddingTop: "10px"}}>
       <img src={newsies} alt="gmn"></img>
@@ -532,11 +535,8 @@ var flkty = new Flickity( '.main-gallery', {
 </div>
 <div className="carousel-cell">
   <a className="bl" href="https://blockchainlawyers.group" target="_blank" rel="noreferrer">
-    <div style={{
-      fontSize: "2em",
-      borderBottom: "1px solid #fff"
-    }}>
-    <h4 className="projects">Blockchain Lawyers</h4>
+    <div>
+    <p className="projects">Blockchain Lawyers</p>
     </div>
     <div style={{width: "200px", height: "200px", margin: "auto", paddingTop: "10px"}}>
       <img src={blLogo} alt="gmn"></img>
@@ -544,7 +544,7 @@ var flkty = new Flickity( '.main-gallery', {
   </a>
 </div>
 </Flickity>
-</div>
+
 
       <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
